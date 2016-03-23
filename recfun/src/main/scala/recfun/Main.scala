@@ -43,5 +43,20 @@ object Main {
   /**
    * Exercise 3
    */
-  def countChange(money: Int, coins: List[Int]): Int = ???
+  def countChange(money: Int, coins: List[Int]): Int = {
+    
+    def countChangeLoop(money: Int, coins: List[Int]): Int = {
+      if ( coins.isEmpty && money == 0 )
+        1
+      else if ( coins.isEmpty && money != 0 )
+        0
+      else if ( coins.head > money )
+        countChangeLoop(money, coins.tail) //only option is to move on to next coin
+      else
+        //count both the use of the current coin, and also all the options of skipping this coin 
+        countChangeLoop(money-coins.head,coins) + countChangeLoop(money,coins.tail) 
+    }
+    
+    countChangeLoop(money, coins.sorted(Ordering[Int].reverse)) 
+  }
 }
